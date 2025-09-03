@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Project 1 - Part 2</title>
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body class="project1">
+        <header>
+            <div class="logo" role="img" aria-label="Blurred IDE screenshot"></div>
+            <h1>Project 1 - Part 2</h1>
+        </header>
+        <main class="container">
+            <div class="content">
+                <form id="numbersForm" class="numbers-form">
+                    <div class="form-row">
+                        <label for="num1">First integer:</label>
+                        <input type="text" id="num1" name="num1">
+                    </div>
+                    <div class="form-row">
+                        <label for="num2">Second integer:</label>
+                        <input type="text" id="num2" name="num2">
+                    </div>
+                    <div class="form-row">
+                        <label for="num3">Third integer:</label>
+                        <input type="text" id="num3" name="num3">
+                    </div>
+
+                    <div class="form-buttons">
+                        <button type="button" id="processBtn" class="button">Process Data</button>
+                        <button type="reset" id="clearBtn" class="button">Clear Form</button>
+                    </div>
+                </form>
+                <textarea id="results" class="results-area" rows="6" readonly></textarea>
+                <a href="project1.html" class="button back-to-home">Back to Project 1</a>
+            </div>
+        </main>
+        <footer>
+            <p>Made by: <span>Maciej</span> | <a href="mailto:dziewulskim1@my.smccd.edu">dziewulskim1@my.smccd.edu</a></p>
+        </footer>
+
+        <script>
+            //references to the form elements:
+            const processBtn = document.getElementById('processBtn');
+            const resultsArea = document.getElementById('results');
+            const num1Input = document.getElementById('num1');
+            const num2Input = document.getElementById('num2');
+            const num3Input = document.getElementById('num3');
+
+            // Function to check if the entered values are valid numbers
+            function isNumber(value) {
+                // parseFloat returns a number, isNaN returns true when the value is not a number
+                return !isNaN(parseFloat(value)) && isFinite(value);
+            }
+
+            //Function handling the "Process Data" click
+            processBtn.addEventListener('click', () => {
+                const val1 = num1Input.value.trim();
+                const val2 = num2Input.value.trim();
+                const val3 = num3Input.value.trim();
+
+                // We check if all values are numbers
+                if (!isNumber(val1) || !isNumber(val2) || !isNumber(val3)) {
+                    resultsArea.value = "Error: Please enter valid integer numbers in all input boxes.";
+                    return;
+                }
+
+                // Conversion to float numbers
+                const num1 = parseFloat(val1);
+                const num2 = parseFloat(val2);
+                const num3 = parseFloat(val3);
+
+                const sum = num1 + num2 + num3;
+                const average = sum / 3;
+                const product = num1 * num2 * num3;
+
+                const smallest = Math.min(num1, num2, num3);
+                const largest = Math.max(num1, num2, num3);
+
+                //result message
+                let outputMessage = `Sum: ${sum}\n`;
+                outputMessage += `Average: ${average}\n`;
+                outputMessage += `Product: ${product}\n`;
+                outputMessage += `Smallest: ${smallest}\n`;
+                outputMessage += `Largest: ${largest}\n`;
+
+                //result in the text field
+                resultsArea.value = outputMessage;
+            });
+        </script>
+    </body>
+</html>

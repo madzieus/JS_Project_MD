@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Project 1 - Part 1</title>
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body class="project1">
+        <header>
+            <div class="logo" role="img" aria-label="Blurred IDE screenshot"></div>
+            <h1>Project 1 - Part 1</h1>
+        </header>
+        <main class="container">
+            <div class="content">
+                <p>Below is the JavaScript-generated text:</p>
+                <div id="output"></div>
+                <a href="project1.html" class="button back-to-home">Back to Project 1</a>
+            </div>
+        </main>
+        <footer>
+            <p>Made by: <span>Maciej</span> | <a href="mailto:dziewulskim1@my.smccd.edu">dziewulskim1@my.smccd.edu</a></p>
+        </footer>
+
+        <script>
+            // todo:
+            // 1. xy: bold, Times New Roman, red
+            // 2. 12: not bold, Arial, blue
+            // 3. 89: italic, Impact, green
+
+            const outputContainer = document.getElementById('output');
+
+            //create the content in HTML
+            const content = `
+            <strong style="color: red; font-family: 'Times New Roman';">xy</strong>
+            <span style="color: blue; font-family: Arial;">12</span>
+            <em style="color: green; font-family: Impact;">89</em>
+            `;
+
+            //insert the created HTML into the page element
+            outputContainer.innerHTML = content;
+        </script>
+    </body>
+</html>
