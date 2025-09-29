@@ -35,7 +35,7 @@ header {
     margin-right: auto;
 }
 
-/* Zmniejszamy zbędne przerwy dla project1 */
+/* reduce spacing for project1 */
 .project1 header {
     margin-bottom: 0.5rem;
     padding-bottom: 0;
@@ -124,7 +124,7 @@ header p {
     color: #007AFF;
 }
 
-/* Project 1 container w kolumnie, ograniczone przerwy */
+/* Project 1 container with limited spacing */
 .project1 .container {
     text-align: center;
     justify-content: flex-start;
@@ -135,7 +135,6 @@ header p {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* Dodajemy bardziej wyśrodkowany, płynny gap od mniejszego do większego */
     gap: clamp(1rem, 2vw, 3rem);
     flex-wrap: nowrap;
     opacity: 0;
@@ -149,7 +148,7 @@ header p {
     align-items: center;
 }
 
-/* Przycisk „Back to Home” – niewielki margines od button-group */
+/* Button „Back to Home”*/
 .project1 .back-to-home {
     margin-top: clamp(1rem, 2vw, 2rem);
 }
@@ -211,17 +210,16 @@ footer a {
     }
 }
 
-/* Duże ekrany w okolicach FullHD */
+/* FullHD */
 @media (min-width: 1200px) {
-    /* Wiele elementów jest domyślnie dopasowanych,
-       ale możemy dodatkowo ustawić marginesy / odległości */
+
     .project1 .content {
-        margin-top: 2rem; /* nieco większy odstęp, żeby nie „kleiło się” przy jeszcze szerszych ekranach */
+        margin-top: 2rem;
         gap: clamp(2rem, 3vw, 5rem);
     }
 }
 
-/* bardzo duże ekrany (2K, 4K) */
+/* Extra Large (2K, 4K) */
 @media (min-width: 1600px) {
     body {
         font-size: 1.1rem;
@@ -230,7 +228,7 @@ footer a {
         max-width: 1400px;
     }
     .project1 .content {
-        /* przy jeszcze szerszym oknie wartości z clamp() i tak się zwiększą */
+        /* With an even wider window, the values from clamp() will still increase. */
         margin-top: 3rem;
     }
 }
