@@ -117,6 +117,7 @@ header p {
     font-size: clamp(1rem, 2vw, 1.1rem);
     font-weight: 500;
     display: block;
+    text-align: center;
 }
 
 .project-list a[href] {
@@ -233,3 +234,11 @@ footer a {
         margin-top: 3rem;
     }
 }
+
+table { border-collapse: collapse; margin-top: 1em; }
+th, td { border: 1px solid #333; padding: 0.5em; }
+input[type="number"], input[readonly] {
+    width: 80px;
+    text-align: right;
+}
+.error { color: red; margin-top: 1em; }

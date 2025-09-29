@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Student Grades</title>
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body class="project1">
+        <header>
+            <div class="logo" role="img" aria-label="Blurred IDE screenshot"></div>
+            <h1>Student Grades</h1>
+        </header>
+
+        <main class="container">
+            <div class="content">
+                <form id="gradesForm" class="grades-form">
+                    <div class="form-row">
+                        <label for="hwAvg">Homework Average:</label>
+                        <input type="text" id="hwAvg" name="hwAvg">
+                    </div>
+                    <div class="form-row">
+                        <label for="midExam">Mid-Term Exam Score:</label>
+                        <input type="text" id="midExam" name="midExam">
+                    </div>
+                    <div class="form-row">
+                        <label for="finalExam">Final Exam Score:</label>
+                        <input type="text" id="finalExam" name="finalExam">
+                    </div>
+                    <div class="form-row">
+                        <label for="participation">Participation:</label>
+                        <input type="text" id="participation" name="participation">
+                    </div>
+
+                    <div class="form-buttons">
+                        <button type="button" id="processBtn" class="button">Submit Grades</button>
+                        <button type="reset" id="clearBtn" class="button">Clear Form</button>
+                    </div>
+                </form>
+
+                <textarea id="results" class="results-area" rows="8" readonly></textarea>
+                <a href="project2.html" class="button back-to-home">Back to Project 2</a>
+            </div>
+        </main>
+
+        <footer>
+            <p>Made by: <span>Maciej</span> | <a href="mailto:dziewulskim1@my.smccd.edu">dziewulskim1@my.smccd.edu</a></p>
+        </footer>
+
+        <script>
+            const form = document.getElementById("gradesForm");
+            const processBtn = document.getElementById("processBtn");
+            const results = document.getElementById("results");
+
+            function validateInput(val) {
+                const num = Number(val);
+                return !isNaN(num) && num >= 0 && num <= 100;
+            }
+
+            function calculateFinal(hw, mid, final, part) {
+                return Math.round((0.5 * hw) + (0.2 * mid) + (0.2 * final) + (0.1 * part));
+            }
+
+            function getLetterGrade(score) {
+                if (score >= 90) return "A";
+                if (score >= 80) return "B";
+                if (score >= 70) return "C";
+                if (score >= 60) return "D";
+                return "F";
+            }
+
+            processBtn.addEventListener("click", () => {
+                const hw = form.hwAvg.value.trim();
+                const mid = form.midExam.value.trim();
+                const finalExam = form.finalExam.value.trim();
+                const participation = form.participation.value.trim();
+
+                if (
+                    !validateInput(hw) ||
+                    !validateInput(mid) ||
+                    !validateInput(finalExam) ||
+                    !validateInput(participation)
+                ) {
+                    results.value = "Error: All inputs must be numbers between 0 and 100.";
+                    return;
+                }
+
+                const finalScore = calculateFinal(
+                    Number(hw),
+                    Number(mid),
+                    Number(finalExam),
+                    Number(participation)
+                );
+
+                const grade = getLetterGrade(finalScore);
+
+                let message = `Final Average: ${finalScore}\nLetter Grade: ${grade}`;
+
+                if (grade === "D" || grade === "F") {
+                    message += `\nStudent must retake the course.`;
+                }
+
+                results.value = message;
+            });
+
+            form.addEventListener("reset", () => {
+                results.value = "";
+            });
+        </script>
+    </body>
+</html>
