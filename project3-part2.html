@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Learn Multiplication</title>
+        <link rel="stylesheet" href="css/style.css">
+
+    </head>
+    <body class="project1">
+        <header>
+            <div class="logo" role="img" aria-label="Blurred IDE screenshot"></div>
+            <h1>Learn multiplication</h1>
+        </header>
+
+        <main class="container">
+            <div class="content">
+                <!-- Container where the tables will be generated -->
+                <div id="tablesContainer"></div>
+
+                <a href="project3.html" class="button back-to-home">Back</a>
+            </div>
+        </main>
+
+        <footer>
+            <p>Made by: <span>Maciej</span> | <a href="mailto:dziewulskim1@my.smccd.edu">dziewulskim1@my.smccd.edu</a></p>
+        </footer>
+
+        <script>
+            // We'll display the multiplication tables from 5 to 9
+            const multipliers = [5, 6, 7, 8, 9];
+            const tablesContainer = document.getElementById("tablesContainer");
+
+            multipliers.forEach((multiplier) => {
+                // Create a new table
+                const table = document.createElement("table");
+
+                // thead
+                const thead = document.createElement("thead");
+                const headerRow = document.createElement("tr");
+
+                const thNumber = document.createElement("th");
+                thNumber.textContent = "Number";
+
+                const thMultiplier = document.createElement("th");
+                thMultiplier.textContent = "Multiplier";
+
+                const thResult = document.createElement("th");
+                thResult.textContent = "Result";
+
+                headerRow.appendChild(thNumber);
+                headerRow.appendChild(thMultiplier);
+                headerRow.appendChild(thResult);
+                thead.appendChild(headerRow);
+
+                // tbody
+                const tbody = document.createElement("tbody");
+
+                for (let number = 1; number <= 9; number++) {
+                    const row = document.createElement("tr");
+
+                    const cellNumber = document.createElement("td");
+                    cellNumber.textContent = number;
+
+                    const cellMultiplier = document.createElement("td");
+                    cellMultiplier.textContent = multiplier;
+
+                    const cellResult = document.createElement("td");
+                    cellResult.textContent = number * multiplier;
+
+                    row.appendChild(cellNumber);
+                    row.appendChild(cellMultiplier);
+                    row.appendChild(cellResult);
+                    tbody.appendChild(row);
+                }
+
+                // Attach thead and tbody to table
+                table.appendChild(thead);
+                table.appendChild(tbody);
+
+                // Append table to container
+                tablesContainer.appendChild(table);
+            });
+        </script>
+    </body>
+</html>

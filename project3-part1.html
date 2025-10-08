@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>Looping Statements</title>
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body class="project1">
+        <header>
+            <div class="logo" role="img" aria-label="Blurred IDE screenshot"></div>
+            <h1>Looping Statements</h1>
+        </header>
+
+        <main class="container">
+            <div class="content">
+                <!-- Part 1: Every fourth integer from 5 to 25 -->
+                <button type="button" id="part1Btn" class="button">
+                    Calculate Part 1 (5 to 25, step 4)
+                </button>
+
+                <!-- Part 2: Every third integer from 3 to 18 -->
+                <button type="button" id="part2Btn" class="button">
+                    Calculate Part 2 (3 to 18, step 3)
+                </button>
+
+                <button type="button" id="clearBtn" class="button">Clear Results</button>
+
+                <textarea id="results" class="results-area-p3p2" rows="8" readonly></textarea>
+
+                <a href="project3.html" class="button back-to-home">Back</a>
+            </div>
+        </main>
+
+        <footer>
+            <p>Made by: <span>Maciej</span> | <a href="mailto:dziewulskim1@my.smccd.edu">dziewulskim1@my.smccd.edu</a></p>
+        </footer>
+
+        <script>
+            const part1Btn = document.getElementById("part1Btn");
+            const part2Btn = document.getElementById("part2Btn");
+            const clearBtn = document.getElementById("clearBtn");
+            const results = document.getElementById("results");
+
+            // Part 1: for loop from 5 to 25 in steps of 4
+            part1Btn.addEventListener("click", () => {
+                let numbers = [];
+                for (let i = 5; i <= 25; i += 4) {
+                    numbers.push(i);
+                }
+
+                // Calculate product
+                let product = 1;
+                for (let num of numbers) {
+                    product *= num;
+                }
+
+                // Calculate sum
+                let sum = 0;
+                for (let num of numbers) {
+                    sum += num;
+                }
+
+                // Use toLocaleString() for formatting
+                const productFormatted = product.toLocaleString();
+                const sumFormatted = sum.toLocaleString();
+
+                // Display results
+                let msg = `The result of ${numbers.join(" * ")} is ${productFormatted}\n`;
+                msg += `The result of ${numbers.join(" + ")} is ${sumFormatted}\n\n`;
+                results.value += msg;
+            });
+
+            // Part 2: while (or do...while) loop from 3 to 18 in steps of 3
+            part2Btn.addEventListener("click", () => {
+                let numbers = [];
+                let i = 3;
+                while (i <= 18) {
+                    numbers.push(i);
+                    i += 3;
+                }
+
+                // Calculate product
+                let product = 1;
+                for (let num of numbers) {
+                    product *= num;
+                }
+
+                // Calculate sum
+                let sum = 0;
+                for (let num of numbers) {
+                    sum += num;
+                }
+
+                // Use toLocaleString() for formatting
+                const productFormatted = product.toLocaleString();
+                const sumFormatted = sum.toLocaleString();
+
+                // Display results
+                let msg = `The result of ${numbers.join(" * ")} is ${productFormatted}\n`;
+                msg += `The result of ${numbers.join(" + ")} is ${sumFormatted}\n\n`;
+                results.value += msg;
+            });
+
+            clearBtn.addEventListener("click", () => {
+                results.value = "";
+            });
+        </script>
+    </body>
+</html>

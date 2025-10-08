@@ -233,6 +233,26 @@ footer a {
     }
 }
 
+.results-area-p3p2 {
+    width: clamp(300px, 80%, 700px);
+    height: 10rem;
+    font-family: 'Rubik', sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    resize: vertical;
+    background-color: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.results-area-p3p2:focus {
+    border-color: #809fff;
+    outline: none;
+    box-shadow: 0 0 6px rgba(128, 1159, 255, 0.3);
+}
+
 table { border-collapse: collapse; margin-top: 1em; }
 th, td { border: 1px solid #333; padding: 0.5em; }
 input[type="number"], input[readonly] {
@@ -240,3 +260,15 @@ input[type="number"], input[readonly] {
     text-align: right;
 }
 .error { color: red; margin-top: 1em; }
+
+/*multiplication tables (project3-part2)*/
+
+/* Make the header row of each table distinct */
+#tablesContainer table thead {
+    background-color: #ccc;
+}
+
+/* Alternate background color for table rows (excluding the header) */
+#tablesContainer table tr:nth-child(even) {
+    background-color: #809fff;
+}
