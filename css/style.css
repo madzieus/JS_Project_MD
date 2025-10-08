@@ -250,7 +250,7 @@ footer a {
 .results-area-p3p2:focus {
     border-color: #809fff;
     outline: none;
-    box-shadow: 0 0 6px rgba(128, 1159, 255, 0.3);
+    box-shadow: 0 0 6px rgba(128, 159, 255, 0.3);
 }
 
 table { border-collapse: collapse; margin-top: 1em; }
