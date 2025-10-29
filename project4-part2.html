@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>State Info - Arrays Example</title>
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body class="project1">
+        <header>
+            <div class="logo" role="img" aria-label="Blurred IDE screenshot"></div>
+            <h1>Find State Information</h1>
+        </header>
+
+        <main class="container">
+            <div class="content">
+
+                <form id="stateForm" class="user-form">
+                    <div class="form-row">
+                        <label for="stateInput">
+                            Type the Full State Name or the 2-letter Abbreviation:
+                        </label>
+                        <input type="text" id="stateInput" name="stateInput" placeholder="e.g. California or CA">
+                    </div>
+
+                    <div class="form-row">
+                        <button type="button" id="submitBtn" class="button">Get State Info</button>
+                        <button type="reset" id="clearBtn" class="button">Clear</button>
+                    </div>
+
+                    <div id="resultArea" class="result-area"></div>
+                </form>
+
+                <a href="project4.html" class="button back-to-home">Back</a>
+            </div>
+        </main>
+
+        <footer>
+            <p>Made by: <span>Maciej</span> | <a href="mailto:dziewulskim1@my.smccd.edu">dziewulskim1@my.smccd.edu</a></p>
+        </footer>
+
+        <script>
+            //Our "database" of states as a 2D array:
+            //[abbreviation, fullName, capital, population]
+            const statesData = [
+                ["AL", "Alabama", "Montgomery", "5,157,699"],
+                ["AK", "Alaska", "Juneau", "740,133"],
+                ["AZ", "Arizona", "Phoenix", "7,582,384"],
+                ["AR", "Arkansas", "Little Rock", "3,088,354"],
+                ["CA", "California", "Sacramento", "39,431,263"],
+                ["CO", "Colorado", "Denver", "5,957,493"]
+            ];
+
+            //Collect references
+            const stateInput = document.getElementById("stateInput");
+            const submitBtn = document.getElementById("submitBtn");
+            const clearBtn = document.getElementById("clearBtn");
+            const resultArea = document.getElementById("resultArea");
+
+            function findStateInfo(query) {
+                //Convert user input to uppercase for matching
+                const userQuery = query.trim().toUpperCase();
+
+                //Search in the statesData array
+                for (const state of statesData) {
+                    const [abbr, fullName, capital, population] = state;
+                    // Compare user query to abbreviation or full name in uppercase
+                    if (userQuery === abbr.toUpperCase() || userQuery === fullName.toUpperCase()) {
+                        return { abbr, fullName, capital, population };
+                    }
+                }
+                return null;
+            }
+
+            //Display an error or the found state info
+            function displayResult(stateObject) {
+                if (!stateObject) {
+                    // Build a message of available states
+                    const availableStates = statesData.map(([abbr, name]) => name).join(", ");
+                    resultArea.innerHTML = `
+                    <span class="error">
+                        Sorry, we do not have information about this state!<br>
+                        We only have information about: ${availableStates}
+                    </span>
+                `;
+                } else {
+                    //Show the state information
+                    resultArea.innerHTML = `
+                    <p><strong>Thanks for your inquiry, here is the information you requested:</strong></p>
+                    <ul>
+                        <li><strong>State Abbreviation:</strong> ${stateObject.abbr}</li>
+                        <li><strong>State Name:</strong> ${stateObject.fullName}</li>
+                        <li><strong>Capital:</strong> ${stateObject.capital}</li>
+                        <li><strong>Population:</strong> ${stateObject.population}</li>
+                    </ul>
+                `;
+                }
+            }
+
+            //Get State Info
+            submitBtn.addEventListener("click", () => {
+                //Clear previous messages
+                resultArea.textContent = "";
+                const userQuery = stateInput.value;
+                const result = findStateInfo(userQuery);
+                displayResult(result);
+            });
+
+            //Clear button
+            clearBtn.addEventListener("click", () => {
+                resultArea.textContent = "";
+            });
+        </script>
+    </body>
+</html>

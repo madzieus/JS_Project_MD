@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Project4 Part 1 - Arrays and Form Validation</title>
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body class="project1">
+        <header>
+            <div class="logo" role="img" aria-label="Blurred IDE screenshot"></div>
+            <h1>Form with Arrays</h1>
+        </header>
+
+        <main class="container">
+            <div class="content">
+
+                <form id="userForm" class="user-form">
+
+                    <div class="form-row">
+                        <label for="fullName">Full Name:</label>
+                        <input type="text" id="fullName" name="fullName">
+                    </div>
+
+                    <fieldset>
+                        <legend>Select Your Age Group</legend>
+                        <label for="age1">
+                            <input type="radio" id="age1" name="ageGroup" value="lessThan21"> Less than 21
+                        </label>
+                        <label for="age2">
+                            <input type="radio" id="age2" name="ageGroup" value="between21and50"> Between 21 and 50
+                        </label>
+                        <label for="age3">
+                            <input type="radio" id="age3" name="ageGroup" value="olderThan50"> Older than 50
+                        </label>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Browsers You Have Used</legend>
+                        <label for="browserFirefox">
+                            <input type="checkbox" id="browserFirefox" name="browsers" value="Firefox"> Firefox
+                        </label>
+                        <label for="browserEdge">
+                            <input type="checkbox" id="browserEdge" name="browsers" value="Edge"> Edge
+                        </label>
+                        <label for="browserChrome">
+                            <input type="checkbox" id="browserChrome" name="browsers" value="Chrome"> Chrome
+                        </label>
+                        <label for="browserSafari">
+                            <input type="checkbox" id="browserSafari" name="browsers" value="Safari"> Safari
+                        </label>
+                    </fieldset>
+
+                    <div class="form-row">
+                        <label for="favoriteMovie">Which type of movie do you prefer?</label>
+                        <select id="favoriteMovie" name="favoriteMovie">
+                            <!-- JavaScript will populate these options from an array -->
+                        </select>
+                    </div>
+
+                    <div class="form-row">
+                        <button type="button" id="submitBtn" class="button">Submit</button>
+                        <button type="reset" id="clearBtn" class="button">Clear</button>
+                    </div>
+                </form>
+
+                <div id="resultArea" class="result-area"></div>
+                <a href="project4.html" class="button back-to-home">Back</a>
+            </div>
+        </main>
+
+        <footer>
+            <p>Made by: <span>Maciej</span> | <a href="mailto:dziewulskim1@my.smccd.edu">dziewulskim1@my.smccd.edu</a></p>
+        </footer>
+
+        <script>
+            //Array of movie types
+            const movieTypes = ["Action", "Comedy", "Drama", "Documentary", "Science Fiction"];
+
+            //Populate the select dropdown from the movieTypes array
+            const favoriteMovieSelect = document.getElementById("favoriteMovie");
+            (function buildMovieSelect() {
+                const placeholder = document.createElement("option");
+                placeholder.value = "";
+                placeholder.textContent = "-- Select a type --";
+                placeholder.disabled = true;
+                placeholder.selected = true;
+                favoriteMovieSelect.appendChild(placeholder);
+
+                movieTypes.forEach(type => {
+                    const option = document.createElement("option");
+                    option.value = type;
+                    option.textContent = type;
+                    favoriteMovieSelect.appendChild(option);
+                });
+            })();
+
+            const submitBtn = document.getElementById("submitBtn");
+            const clearBtn = document.getElementById("clearBtn");
+            const resultArea = document.getElementById("resultArea");
+
+            //Collect references to form elements
+            const fullNameInput = document.getElementById("fullName");
+            const ageGroupRadios = document.getElementsByName("ageGroup");
+            const browserCheckboxes = document.getElementsByName("browsers");
+
+            //helper for space normalization
+            const normalizeSpaces = str => str.trim().replace(/\s+/g, " ");
+
+            //Validation of the full name:
+            //minimum of 2 words
+            //each word starts with a capital letter
+            //only letters allowed, optionally a hyphen or apostrophe inside
+            //no digits or other symbols
+            function validateFullNameValue(value) {
+                const raw = normalizeSpaces(value);
+
+                if (raw === "") {
+                    return { ok: false, msg: "Please enter your Full Name." };
+                }
+
+                //Disallowed digits and characters (except letters, spaces, hyphens, and apostrophes)
+                if (/[^ \p{L}'-]/u.test(raw)) {
+                    return {
+                        ok: false,
+                        msg: "Full Name can contain only letters, hyphens, and apostrophes (no numbers or symbols)."
+                    };
+                }
+
+                const parts = raw.split(" ");
+                if (parts.length < 2) {
+                    return { ok: false, msg: "Please enter at least first and last name." };
+                }
+
+                //Each word: Capital letter + following lowercase letters / '-' / apostrophe
+                const properCasing = parts.every(p => /^[\p{Lu}][\p{Ll}'-]*$/u.test(p));
+                if (!properCasing) {
+                    return {
+                        ok: false,
+                        msg: "Each name must start with a capital letter (e.g., \"Tony Hawk\")."
+                    };
+                }
+
+                return { ok: true, value: raw };
+            }
+
+            //Detect the current browser to verify compatibility with the checkbox selections
+            function getCurrentBrowser() {
+                const ua = navigator.userAgent;
+
+                if (/Edg\//.test(ua)) return "Edge";
+                if (/Firefox\//.test(ua)) return "Firefox";
+                if ((/Chrome\/|CriOS\//.test(ua)) && !/Edg\//.test(ua) && !/OPR\//.test(ua)) return "Chrome";
+                if (/Safari\//.test(ua) && !/Chrome\/|CriOS\/|Edg\//.test(ua)) return "Safari";
+
+                return "Unknown";
+            }
+
+            function validateForm() {
+                let errors = [];
+
+                //Check FULL NAME
+                const nameCheck = validateFullNameValue(fullNameInput.value);
+                if (!nameCheck.ok) {
+                    errors.push(nameCheck.msg);
+                }
+
+                //Check RADIO (Age Group)
+                let ageSelected = false;
+                for (let i = 0; i < ageGroupRadios.length; i++) {
+                    if (ageGroupRadios[i].checked) {
+                        ageSelected = true;
+                        break;
+                    }
+                }
+                if (!ageSelected) {
+                    errors.push("Please select an Age Group.");
+                }
+
+                //Check CHECKBOXES (Browsers at least one)
+                let browserSelected = false;
+                const selectedBrowsers = [];
+                for (let i = 0; i < browserCheckboxes.length; i++) {
+                    if (browserCheckboxes[i].checked) {
+                        browserSelected = true;
+                        selectedBrowsers.push(browserCheckboxes[i].value); // NEW: zbieramy selekcję do dalszej walidacji
+                    }
+                }
+                if (!browserSelected) {
+                    errors.push("Please select at least one Browser.");
+                }
+
+                //Validation of compatibility with the current browser (if detected)
+                const current = getCurrentBrowser();
+                if (current !== "Unknown" && browserSelected && !selectedBrowsers.includes(current)) {
+                    errors.push(`Your current browser appears to be ${current}. Please include it in the selection or correct your choice.`);
+                }
+
+                // Check MOVIE TYPE
+                if (favoriteMovieSelect.value === "") {
+                    errors.push("Please select a favorite Movie type.");
+                }
+
+                return errors;
+            }
+
+            submitBtn.addEventListener("click", () => {
+                //Clear previous message
+                resultArea.textContent = "";
+
+                //Validate
+                const errors = validateForm();
+                if (errors.length > 0) {
+                    // Show error messages
+                    resultArea.innerHTML = "<span class='error'>" + errors.join("<br>") + "</span>";
+                } else {
+                    // All data was provided
+                    resultArea.textContent = "Thanks, your data was submitted!";
+                }
+            });
+
+            //Reset handling — clear messages and restore the placeholder in the <select> element
+            clearBtn.addEventListener("click", () => {
+                resultArea.textContent = "";
+                favoriteMovieSelect.selectedIndex = 0;
+            });
+        </script>
+    </body>
+</html>

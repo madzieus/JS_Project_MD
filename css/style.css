@@ -35,6 +35,18 @@ header {
     margin-right: auto;
 }
 
+fieldset {
+    margin-top: 1rem;
+}
+
+fieldset:last-of-type {
+    margin-bottom: 1rem;
+}
+
+.form-row {
+    margin-bottom: 1rem;
+}
+
 /* reduce spacing for project1 */
 .project1 header {
     margin-bottom: 0.5rem;
@@ -151,6 +163,16 @@ header p {
 /* Button „Back to Home”*/
 .project1 .back-to-home {
     margin-top: clamp(1rem, 2vw, 2rem);
+}
+
+#stateForm {
+    margin-bottom: 2rem;
+}
+
+.result-area ul {
+    list-style-type: none; /* usuwa kropki */
+    padding-left: 0;       /* usuwa wcięcie */
+    margin-left: 0;        /* opcjonalnie usuwa margines */
 }
 
 .project1 .content p {
