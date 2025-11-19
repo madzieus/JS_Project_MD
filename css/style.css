@@ -294,3 +294,14 @@ input[type="number"], input[readonly] {
 #tablesContainer table tr:nth-child(even) {
     background-color: #809fff;
 }
+
+.result-area
+{ white-space: pre-line; }
+
+#styledArea {
+    --content-font-size: 1rem;
+}
+
+#styledArea p {
+    font-size: var(--content-font-size);
+}

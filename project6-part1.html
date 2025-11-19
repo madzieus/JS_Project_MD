@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>Object Model and Cookies part 1</title>
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body class="project1">
+        <header>
+            <div class="logo" role="img" aria-label="Blurred IDE screenshot"></div>
+            <h1>Object Model and Cookies part 1</h1>
+        </header>
+
+        <main class="container">
+            <div class="content">
+
+                <!-- Style changes will be applied -->
+                <div id="styledArea">
+                    <p>Frodo saw him to the door.</p>
+                    <p>He gave a final wave of his hand, and walked off at a surprising pace; but Frodo thought the old wizard looked unusually bent, almost as if he was carrying a great weight</p>
+                    <p>The evening was closing in, and his cloaked figure quickly vanished into the twilight.</p>
+                    <p>Frodo did not see him again for a long time.</p>
+                </div>
+
+                <!-- Form for the style changes -->
+                <form id="styleForm" class="user-form">
+                    <fieldset>
+                        <legend>Choose Background Color:</legend>
+                        <div class="form-row">
+                            <label>
+                                <input type="radio" name="bgColor" value="lightblue">
+                                Light Blue
+                            </label>
+                            <label>
+                                <input type="radio" name="bgColor" value="lightgreen">
+                                Light Green
+                            </label>
+
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Text Styles:</legend>
+                        <div class="form-row">
+                            <label>
+                                <input type="checkbox" name="txtStyle" value="bold">
+                                Bold
+                            </label>
+                            <label>
+                                <input type="checkbox" name="txtStyle" value="underline">
+                                Underline
+                            </label>
+                            <label>
+                                <input type="checkbox" name="txtStyle" value="italic">
+                                Italic
+                            </label>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Font Size:</legend>
+                        <div class="form-row">
+                            <label for="fontSizeSelect">Choose a font size:</label>
+                            <select id="fontSizeSelect">
+                                <option value="">-- select size --</option>
+                                <option value="1rem">1rem</option>
+                                <option value="1.2rem">1.2rem</option>
+                                <option value="120%">120%</option>
+                            </select>
+                        </div>
+                    </fieldset>
+                </form>
+
+                <a href="project6.html" class="button back-to-home">Back to Homework 7</a>
+
+            </div>
+        </main>
+
+        <footer>
+            <p>Made by: <span>Maciej</span> |
+                <a href="mailto:dziewulskim1@my.smccd.edu">dziewulskim1@my.smccd.edu</a>
+            </p>
+        </footer>
+
+        <script>
+            const styledArea = document.getElementById("styledArea");
+            const formEl = document.getElementById("styleForm");
+            const fontSizeSelect = document.getElementById("fontSizeSelect");
+
+            // Listen for any change inside the form
+            formEl.addEventListener("change", (event) => {
+                const target = event.target;
+
+                // If user selects a background radio
+                if (target.name === "bgColor") {
+                    // Apply background color to styledArea
+                    styledArea.style.backgroundColor = target.value;
+                }
+
+                // If the user toggles checkboxes
+                if (target.name === "txtStyle") {
+                    applyTextStyles();
+                }
+
+                // If the user selects a font size from the dropdown
+                if (target.id === "fontSizeSelect") {
+                    const size = target.value;
+
+
+                    if (size) {
+                        styledArea.style.setProperty("--content-font-size", size);
+                    } else {
+                        styledArea.style.removeProperty("--content-font-size");
+
+                    }
+                }
+            });
+
+            function applyTextStyles() {
+                // Collect all checked styles
+                const checkboxes = formEl.querySelectorAll('input[name="txtStyle"]:checked');
+                let fontWeight = "normal";
+                let textDecoration = "none";
+                let fontStyle = "normal";
+
+                checkboxes.forEach((cb) => {
+                    switch (cb.value) {
+                        case "bold":
+                            fontWeight = "bold";
+                            break;
+                        case "underline":
+                            textDecoration = textDecoration === "none" ? "underline" : textDecoration + " underline";
+                            break;
+                        case "italic":
+                            fontStyle = "italic";
+                            break;
+                        default:
+                            break;
+                    }
+                });
+
+                styledArea.style.fontWeight = fontWeight;
+                styledArea.style.textDecoration = textDecoration;
+                styledArea.style.fontStyle = fontStyle;
+            }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>Homework 6 - Objects</title>
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body class="project1">
+        <header>
+            <div class="logo" role="img" aria-label="Blurred IDE screenshot"></div>
+            <h1>Objects part 1</h1>
+        </header>
+
+        <main class="container">
+            <div class="content">
+
+                <!-- Form Section -->
+                <form id="calcForm" class="user-form">
+                    <div class="form-row">
+                        <label for="userNumber">Enter a number with at least 4 decimals:</label>
+                        <input type="text" id="userNumber" name="userNumber">
+                    </div>
+
+                    <div class="form-row">
+                        <button type="button" id="calcSubmit" class="button">Submit</button>
+                        <button type="reset" id="calcClear" class="button">Clear</button>
+                    </div>
+                </form>
+
+                <!-- Result area -->
+                <div id="outputArea" class="result-area"></div>
+
+
+                <a href="project5.html" class="button back-to-home">Back to Homework 6</a>
+
+            </div>
+        </main>
+
+        <footer>
+            <p>Made by: <span>Maciej</span> |
+                <a href="mailto:dziewulskim1@my.smccd.edu">dziewulskim1@my.smccd.edu</a>
+            </p>
+        </footer>
+
+        <script>
+
+            const numberProcessor = {
+                originalValue: null, // parsed number
+                originalText: "",    // exactly what user typed
+
+                isValid: function (value) {
+                    // only numbers
+                    const numericRegex = /^-?\d+\.\d+$/;
+                    if (!numericRegex.test(value)) {
+                        return false;
+                    }
+
+                    const parsed = parseFloat(value);
+                    if (isNaN(parsed)) {
+                        return false;
+                    }
+
+                    const decimalPart = value.split(".")[1];
+                    if (!decimalPart || decimalPart.length < 4) {
+                        return false;
+                    }
+
+                    this.originalValue = parsed;
+                    this.originalText = value;
+                    return true;
+                },
+
+                process: function () {
+                    const sqrtValue = Math.sqrt(this.originalValue);
+
+                    return {
+                        typed: this.originalText,
+
+                        // round the floating-point number to the nearest integer
+                        nearestInteger: Math.round(this.originalValue),
+
+                        // calculate the square root and round it to integer
+                        sqrtRounded: Math.round(sqrtValue),
+
+                        // Math.floor
+                        sqrtFloored: Math.floor(sqrtValue),
+
+                        // round the floating-point number to the nearest tenths / hundredths / thousandths
+                        toTenths: this.originalValue.toFixed(1),
+                        toHundredths: this.originalValue.toFixed(2),
+                        toThousandths: this.originalValue.toFixed(3)
+                    };
+                }
+            };
+
+            const userNumberInput = document.getElementById("userNumber");
+            const outputArea = document.getElementById("outputArea");
+
+            // Submit
+            document.getElementById("calcSubmit").addEventListener("click", () => {
+                outputArea.textContent = "";
+                const value = userNumberInput.value.trim();
+
+                if (!numberProcessor.isValid(value)) {
+                    outputArea.textContent = "You need to type a number with at least 4 decimals, please try again.";
+                    return;
+                }
+
+                const results = numberProcessor.process();
+
+                let message = "";
+                message += `You typed number ${results.typed}\n`;
+                message += `Rounded to the nearest integer = ${results.nearestInteger}\n`;
+                message += `Square root rounded to integer (Math.round) = ${results.sqrtRounded}\n`;
+                message += `Square root floored (Math.floor) = ${results.sqrtFloored}\n`;
+                message += `Rounded to the nearest 10th position = ${results.toTenths}\n`;
+                message += `Rounded to the nearest 100th position = ${results.toHundredths}\n`;
+                message += `Rounded to the nearest 1000th position = ${results.toThousandths}\n`;
+
+
+                outputArea.textContent = message;
+            });
+
+            // Clear
+            document.getElementById("calcClear").addEventListener("click", () => {
+                outputArea.textContent = "";
+            });
+        </script>
+    </body>
+</html>

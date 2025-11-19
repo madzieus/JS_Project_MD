@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Objects - part 2</title>
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body class="project1">
+        <header>
+            <div class="logo" role="img" aria-label="Blurred IDE screenshot"></div>
+            <h1>Objects - part 2</h1>
+        </header>
+
+        <main class="container">
+            <div class="content">
+
+                <form id="charForm" class="user-form">
+                    <div class="form-row">
+                        <label for="contentInput">
+                            Type some text below:
+                        </label><br>
+                        <textarea id="contentInput" rows="5" cols="40" placeholder="Type your content here..."></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <label for="charInput">
+                            Type a single character to search:
+                        </label>
+                        <input type="text" id="charInput" name="charInput" maxlength="1" placeholder="e.g. a">
+                    </div>
+
+                    <div class="form-row">
+                        <button type="button" id="submitBtn" class="button">Submit</button>
+                        <button type="reset" id="clearBtn" class="button">Clear</button>
+                    </div>
+                </form>
+
+                <!-- Output/Result area -->
+                <div id="resultArea" class="result-area"></div>
+
+                <a href="project5.html" class="button back-to-home">Return to Homework 6</a>
+            </div>
+        </main>
+
+        <footer>
+            <p>Made by: <span>Maciej</span> | <a href="mailto:dziewulskim1@my.smccd.edu">dziewulskim1@my.smccd.edu</a></p>
+        </footer>
+
+        <script>
+            const contentInput = document.getElementById("contentInput");
+            const charInput = document.getElementById("charInput");
+            const submitBtn = document.getElementById("submitBtn");
+            const clearBtn = document.getElementById("clearBtn");
+            const resultArea = document.getElementById("resultArea");
+
+            // An object to handle the search logic
+            const charSearcher = {
+                content: "",
+                character: "",
+                countOccurrences() {
+                    // Perform a case-insensitive search
+                    const upperContent = this.content.toUpperCase();
+                    const upperChar = this.character.toUpperCase();
+                    let count = 0;
+                    for (let i = 0; i < upperContent.length; i++) {
+                        if (upperContent.charAt(i) === upperChar) {
+                            count++;
+                        }
+                    }
+                    return count;
+                }
+            };
+
+            // Event: on Submit
+            submitBtn.addEventListener("click", () => {
+                resultArea.textContent = "";
+
+                // Get the data from fields
+                charSearcher.content = contentInput.value;
+                charSearcher.character = charInput.value.trim();
+
+                if (!charSearcher.character) {
+                    resultArea.textContent = "Please type a single character.";
+                    return;
+                }
+
+                const occurrences = charSearcher.countOccurrences();
+
+                // If not found => open a small new window
+                if (occurrences === 0) {
+                    // clear the main result
+                    resultArea.textContent = "";
+                    // open new window
+                    const popup = window.open(
+                        "",
+                        "_blank",
+                        "width=300,height=100,left=200,top=200"
+                    );
+                    if (popup) {
+                        popup.document.write(`
+                            <!DOCTYPE html>
+                            <html>
+                                <head>
+                                    <meta charset="UTF-8">
+                                    <title>Not Found</title>
+                                </head>
+                                <body>
+                                    <p>Search character "${charSearcher.character}" not found in the content you typed</p>
+                                    <button onclick="window.close()">Close this window</button>
+                                </body>
+                            </html>
+                        `);
+                    }
+                } else {
+                    // Found => display in resultArea
+                    resultArea.textContent = `Character "${charSearcher.character}" appears ${occurrences} time(s) in the content.`;
+                }
+            });
+
+            // Event: on Clear
+            clearBtn.addEventListener("click", () => {
+                resultArea.textContent = "";
+            });
+        </script>
+    </body>
+</html>
