@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>Object Model and Cookies part 2</title>
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body class="project1">
+        <header>
+            <div class="logo" role="img" aria-label="Blurred IDE screenshot"></div>
+            <h1>AJAX Application</h1>
+        </header>
+
+        <main class="container">
+            <div class="content">
+
+                <button type="button" class="button" onclick="loadDoc()">Get CD collection</button>
+                <table id="demo"></table>
+
+                <h2>Explanation of AJAX</h2>
+
+                <p>
+                    This page uses a simple AJAX script (Asynchronous JavaScript and XML) to load data from an XML file
+                    without reloading the entire page. When the user clicks the <strong>Get CD collection</strong> button,
+                    the <code>loadDoc()</code> function is executed. Inside this function a new
+                    <code>XMLHttpRequest</code> object is created and stored in the constant <code>xhttp</code>. This
+                    built-in JavaScript object allows the browser to send HTTP requests (such as <code>GET</code> or
+                    <code>POST</code>) to the server in the background. Next, an <code>onload</code> handler is assigned.
+                    When the request finishes successfully, the browser automatically calls this function and passes the
+                    finished request object to <code>myFunction(this)</code>. The lines below
+                </p>
+
+                <pre><code>function loadDoc() {
+                            const xhttp = new XMLHttpRequest();
+                            xhttp.onload = function() {
+                            myFunction(this);
+                            };
+                    xhttp.open("GET", "cd_catalog.xml");
+                    xhttp.send();
+                    }</code></pre>
+
+                <p>
+                    prepare and send an HTTP <code>GET</code> request for the resource <code>cd_catalog.xml</code>. After
+                    the XML file has been received, the <code>myFunction(xml)</code> function is responsible for processing
+                    the response. It first reads the XML document via <code>xml.responseXML</code> and stores it in the
+                    constant <code>xmlDoc</code>, then retrieves all <code>&lt;CD&gt;</code> elements with
+                    <code>getElementsByTagName("CD")</code>. A table header is created in the variable <code>table</code>,
+                    and a loop goes through each <code>CD</code> element, extracting the <code>ARTIST</code> and
+                    <code>TITLE</code> values. For every CD a new table row is added to this string. Finally, the complete
+                    HTML table is inserted into <code>&lt;table id="demo"&gt;</code> using
+                    <code>document.getElementById("demo").innerHTML = table;</code>, so the user sees a formatted list of
+                    artists and titles directly on the page.
+                </p>
+
+                <h2>REST API</h2>
+
+                <p>
+                    The GitHub REST API is an interface provided by the GitHub platform that allows external web applications
+                    to communicate with GitHub repositories and services. This API lets applications retrieve information about
+                    repositories, users, reported issues, or code changes in an organized way, and also create new resources,
+                    such as new repositories or issues. Responses from the GitHub REST API are returned in JSON format,
+                    which is a text-based, well-structured way of representing data that applications can easily read and process.
+                </p>
+
+                <p>
+                    To take full advantage of the GitHub REST API, you usually need a special access key called a token.
+                    This token works like a pass: it confirms that an application or user has permission to perform certain operations on a GitHub account,
+                    such as reading private repositories or creating new ones. This allows GitHub to control security and assign different levels of permissions.
+                    Some basic public data can be retrieved without authentication, but in that case the available features are limited and the rate limits
+                    (the number of allowed requests per hour) are much lower.
+                </p>
+
+                <p>
+                    Using the GitHub REST API does not require a separate license fee – it is included as part of the GitHub platform itself.
+                    However, there are limits on how many requests can be made within a given time period. For organizations with very intensive usage,
+                    it may be necessary to use a paid GitHub plan (for example, a business or enterprise plan), which can offer higher limits and additional features.
+                    Even then, the API is still part of the subscription and is not billed per request.
+                </p>
+
+                <p>
+                    The GitHub REST API also comes with rich and well-structured developer documentation, available on the
+                    <a href="https://docs.github.com/en/rest?apiVersion=2022-11-28">
+                        official GitHub REST API documentation page
+                    </a>.
+                    It includes descriptions of individual API functions, examples of requests and responses, as well as quick start guides to help developers learn how to use it.
+                    Overall, the GitHub REST API can be very helpful for automating tasks related to version control, code review, or reporting project progress,
+                    which makes it an extremely useful tool for larger development teams.
+                </p>
+
+                <a href="index.html" class="button back-to-home">Back to main</a>
+
+            </div>
+        </main>
+
+        <footer>
+            <p>Made by: <span>Maciej</span> | <a href="mailto:dziewulskim1@my.smccd.edu">dziewulskim1@my.smccd.edu</a>
+            </p>
+        </footer>
+
+        <script>
+            function loadDoc() {
+                const xhttp = new XMLHttpRequest();
+                xhttp.onload = function() {
+                    myFunction(this);
+                }
+                xhttp.open("GET", "cd_catalog.xml");
+                xhttp.send();
+            }
+            function myFunction(xml) {
+                const xmlDoc = xml.responseXML;
+                const x = xmlDoc.getElementsByTagName("CD");
+                let table="<tr><th>Artist</th><th>Title</th></tr>";
+                for (let i = 0; i <x.length; i++) {
+                    table += "<tr><td>" +
+                        x[i].getElementsByTagName("ARTIST")[0].childNodes[0].nodeValue +
+                        "</td><td>" +
+                        x[i].getElementsByTagName("TITLE")[0].childNodes[0].nodeValue +
+                        "</td></tr>";
+                }
+                document.getElementById("demo").innerHTML = table;
+            }
+        </script>
+    </body>
+</html>

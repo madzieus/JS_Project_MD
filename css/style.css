@@ -196,6 +196,9 @@ header p {
     font-weight: 500;
     border-radius: 8px;
     transition: background-color 0.2s ease, transform 0.2s ease;
+    border: none;
+
+
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -281,6 +284,11 @@ input[type="number"], input[readonly] {
     width: 80px;
     text-align: right;
 }
+
+.project1 #demo {
+    margin-top: 0.25rem;
+}
+
 .error { color: red; margin-top: 1em; }
 
 /*multiplication tables (project3-part2)*/
